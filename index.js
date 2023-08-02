@@ -1,5 +1,6 @@
 require('dotenv').convig();
 const express = require('express')
+const mongose = require('mongose')
 const app = express()
 const cors = require('cors');
 
