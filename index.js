@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express')
 const mongose = require('mongose')
 const app = express()
-const cors = require('cors');
+
 
 app.all('/', (req, res) => {
     console.log("Hallo World")
