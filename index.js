@@ -1,4 +1,4 @@
-require('dotenv').convig();
+require('dotenv').config();
 const express = require('express')
 const mongose = require('mongose')
 const app = express()
