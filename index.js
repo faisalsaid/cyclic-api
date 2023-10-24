@@ -2,10 +2,15 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 
+const userRouter = require('./routes/user.route')
+
+
 const data = process.env.DATA
 const port = process.env.PORT || 3000
 
-mongoose.connect(process.env.MONGO_DB)
+const db = process.env.ENVIRONTMENT === 'production' ? process.env.MONGO_DB : process.env.MONGO_DB_DUMY
+
+mongoose.connect(db)
 
 const app = express()
 
