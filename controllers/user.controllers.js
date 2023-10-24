@@ -4,6 +4,7 @@ const User = require('../models/user.model.js');
 // user TEst
 
 const userTest = (req, res) => {
+  res.status(200);
   res.send('tes user route');
 };
 // Create User
