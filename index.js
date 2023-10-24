@@ -4,6 +4,7 @@ const colors = require('colors');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const connectDB = require('./config/db.js');
+const { errorHandler } = require('./middelware/error.middleware.js');
 
 const port = process.env.PORT || 3000;
 
@@ -21,5 +22,7 @@ app.all('/api', (req, res) => {
 });
 
 app.use('/api/users', require('./routes/user.route.js'));
+
+app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server run on port ${port}`));
