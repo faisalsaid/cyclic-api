@@ -22,6 +22,7 @@ app.all('/api', (req, res) => {
 });
 
 app.use('/api/users', require('./routes/user.route.js'));
+app.use('/api/auth', require('./routes/auth.route.js'));
 
 app.use(errorHandler);
 
