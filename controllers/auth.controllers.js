@@ -61,6 +61,7 @@ const signin = asyncHandler(async (req, res) => {
     throw new Error('Please add all field');
   }
 
+  // Check user exist
   const user = await User.findOne({ email });
   if (!user) {
     res.status(400);
@@ -79,10 +80,51 @@ const signin = asyncHandler(async (req, res) => {
   }
 });
 
+// Handle OAuth
+// @desc    POST auth
+// @route   POST /api/auth/google
+// @access  Public
+const google = async (req, res, next) => {
+  const { email } = req.body;
+  // Check user exist
+  const user = await User.findOne({ email });
+  if (user) {
+    res.cookie('access_token', generateToken(user._id), { httpOnly: true }).status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+    });
+  } else {
+    const generatePassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(generatePassword, salt);
+    // Create User
+    const user = await User.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: hashPassword,
+      avatar: req.body.photo,
+    });
+    // send user data to client
+    if (user) {
+      res.cookie('access_token', generateToken(user._id), { httpOnly: true }).status(201).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+      });
+    } else {
+      res.status(400);
+      throw new Error('Invalid user data');
+    }
+  }
+};
+
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: '1d',
   });
 };
 
-module.exports = { signup, signin };
+module.exports = { signup, signin, google };
