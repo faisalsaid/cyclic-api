@@ -8,10 +8,10 @@ const jwt = require('jsonwebtoken');
 // @route   POST /api/auth/signup
 // @access  Public
 const signup = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
+  const { name, email, password } = req.body;
 
   // Check if body field is empty
-  if (!username || !email || !password) {
+  if (!name || !email || !password) {
     res.status(400);
     throw new Error('Please add all field');
   }
@@ -31,7 +31,7 @@ const signup = asyncHandler(async (req, res) => {
 
   // Create User
   const user = await User.create({
-    username,
+    name,
     email,
     password: hashPassword,
   });
@@ -39,7 +39,7 @@ const signup = asyncHandler(async (req, res) => {
   if (user) {
     res.status(201).json({
       _id: user._id,
-      username: user.username,
+      name: user.name,
       email: user.email,
       token: generateToken(user._id),
     });
@@ -71,7 +71,7 @@ const signin = asyncHandler(async (req, res) => {
   if (user && (await bcrypt.compare(password, user.password))) {
     res.status(200).json({
       _id: user._id,
-      username: user.username,
+      name: user.name,
       email: user.email,
       token: generateToken(user._id),
     });

@@ -12,16 +12,16 @@ const userTest = (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const addUser = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
+  const { name, email, password } = req.body;
 
   // Check if body field is empty
-  if (!username || !email || !password) {
+  if (!name || !email || !password) {
     res.status(400);
     throw new Error('Please add all field');
   }
   //   res.status(200);
   res.json({
-    username,
+    name,
     email,
     password,
   });
