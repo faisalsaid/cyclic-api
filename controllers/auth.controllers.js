@@ -37,11 +37,10 @@ const signup = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    res.status(201).json({
+    res.cookie('access_token', generateToken(user._id), { httpOnly: true }).status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id),
     });
   } else {
     res.status(400);
@@ -74,12 +73,6 @@ const signin = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
     });
-    // res.status(200).json({
-    //   _id: user._id,
-    //   name: user.name,
-    //   email: user.email,
-    //   token: generateToken(user._id),
-    // });
   } else {
     res.status(400);
     throw new Error('Invalid credentials');
