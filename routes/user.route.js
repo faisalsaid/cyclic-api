@@ -1,9 +1,10 @@
 const express = require('express');
-const { addUser, userTest } = require('../controllers/user.controllers.js');
+const { getMe, testUser } = require('../controllers/user.controllers.js');
+const { protected } = require('../middelware/auth.middlware.js');
 
 const router = express.Router();
 
-router.route('/').post(addUser);
-router.route('/test').get(userTest);
+router.route('/me').get(protected, getMe);
+router.route('/test').get(testUser);
 
 module.exports = router;

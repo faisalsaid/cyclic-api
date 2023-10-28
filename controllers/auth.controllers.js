@@ -40,9 +40,6 @@ const signup = asyncHandler(async (req, res) => {
   if (user) {
     res.cookie('access_token', generateToken(user._id), { httpOnly: true }).status(201).json({
       _id: user._id,
-      name: user.name,
-      email: user.email,
-      avatar: user.avatar,
     });
   } else {
     res.status(400);
@@ -73,9 +70,6 @@ const signin = asyncHandler(async (req, res) => {
   if (user && (await bcrypt.compare(password, user.password))) {
     res.cookie('access_token', generateToken(user._id), { httpOnly: true }).status(200).json({
       _id: user._id,
-      name: user.name,
-      email: user.email,
-      avatar: user.avatar,
     });
   } else {
     res.status(400);
