@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 // @route   POST /api/auth/signup
 // @access  Public
 const signup = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, avatar } = req.body;
 
   // Check if body field is empty
   if (!name || !email || !password) {
@@ -34,13 +34,14 @@ const signup = asyncHandler(async (req, res) => {
     name,
     email,
     password: hashPassword,
-    avatar: user.avatar,
   });
 
   if (user) {
-    res.cookie('access_token', generateToken(user._id), { httpOnly: true }).status(201).json({
-      _id: user._id,
-    });
+    const { password: pass, ...rest } = user._doc;
+    res.status(200).json({ ...rest, token: generateToken(rest._id) });
+    // res.cookie('access_token', generateToken(user._id), { httpOnly: true }).status(201).json({
+    //   _id: user._id,
+    // });
   } else {
     res.status(400);
     throw new Error('Invalid user data');
@@ -67,10 +68,9 @@ const signin = asyncHandler(async (req, res) => {
     throw new Error('Email not registered');
   }
 
-  if (user && (await bcrypt.compare(password, user.password))) {
-    res.cookie('access_token', generateToken(user._id), { httpOnly: true }).status(200).json({
-      _id: user._id,
-    });
+  if (user && (await bcrypt.compareSync(password, user.password))) {
+    const { password: pass, ...rest } = user._doc;
+    res.status(200).json({ ...rest, token: generateToken(rest._id) });
   } else {
     res.status(400);
     throw new Error('Invalid credentials');
@@ -87,12 +87,16 @@ const google = asyncHandler(async (req, res, next) => {
   // Check user exist
   const user = await User.findOne({ email });
   if (user) {
-    res.cookie('access_token', generateToken(user._id), { httpOnly: true }).status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      avatar: user.avatar,
-    });
+    console.log(user);
+    const { password: pass, ...rest } = user._doc;
+    res.status(200).json({ ...rest, token: generateToken(rest._id) });
+
+    // res.cookie('access_token', generateToken(user._id), { httpOnly: true }).status(200).json({
+    //   _id: user._id,
+    //   name: user.name,
+    //   email: user.email,
+    //   avatar: user.avatar,
+    // });
   } else {
     const generatePassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
     const salt = await bcrypt.genSalt(10);
