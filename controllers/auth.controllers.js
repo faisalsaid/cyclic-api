@@ -18,7 +18,6 @@ const signup = asyncHandler(async (req, res) => {
 
   // check if user exists
   const userExists = await User.findOne({ email });
-  console.log(userExists);
 
   if (userExists) {
     res.status(400);
@@ -90,13 +89,6 @@ const google = asyncHandler(async (req, res, next) => {
     console.log(user);
     const { password: pass, ...rest } = user._doc;
     res.status(200).json({ ...rest, token: generateToken(rest._id) });
-
-    // res.cookie('access_token', generateToken(user._id), { httpOnly: true }).status(200).json({
-    //   _id: user._id,
-    //   name: user.name,
-    //   email: user.email,
-    //   avatar: user.avatar,
-    // });
   } else {
     const generatePassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
     const salt = await bcrypt.genSalt(10);
@@ -112,11 +104,10 @@ const google = asyncHandler(async (req, res, next) => {
 
     // send user data to client
     if (user) {
-      res.cookie('access_token', generateToken(user._id), { httpOnly: true }).status(201).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        avatar: user.avatar,
+      const { password: pass, ...rest } = user._doc;
+      res.status(201).json({
+        ...rest,
+        token: generateToken(user._id),
       });
     } else {
       res.status(400);
