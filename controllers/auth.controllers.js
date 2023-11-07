@@ -86,7 +86,6 @@ const google = asyncHandler(async (req, res, next) => {
   // Check user exist
   const user = await User.findOne({ email });
   if (user) {
-    console.log(user);
     const { password: pass, ...rest } = user._doc;
     res.status(200).json({ ...rest, token: generateToken(rest._id) });
   } else {

@@ -9,7 +9,7 @@ const testUser = asyncHandler(async (req, res) => {
 // Create User
 // @desc    GET user
 // @route   GET /api/user/me
-// @access  Public
+// @access  Private
 const getMe = asyncHandler(async (req, res) => {
   res.status(200).json(req.user);
 });
