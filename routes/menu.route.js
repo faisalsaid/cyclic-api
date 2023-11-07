@@ -4,7 +4,7 @@ const { creteMenu, getAllMenu, editMenu, getOneMenu } = require('../controllers/
 
 const router = express.Router();
 
-router.route('/').post(creteMenu).get(protected, getAllMenu);
-router.route('/:id').put(editMenu).get(getOneMenu);
+router.route('/').post(protected, creteMenu).get(protected, getAllMenu);
+router.route('/:id').put(protected, editMenu).get(protected, getOneMenu);
 
 module.exports = router;
