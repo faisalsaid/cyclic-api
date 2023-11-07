@@ -58,8 +58,20 @@ const getOneMenu = asyncHandler(async (req, res) => {
 // @route   PUT /api/menu/:id
 // @access  Private
 const editMenu = asyncHandler(async (req, res) => {
-  res.status(200);
-  res.send(req.params.id);
+  const { title, description, price, image, category } = req.body;
+  if (!title || !description || !price || !image || !category) {
+    res.status(400);
+    throw new Error.apply('Please add all field');
+  }
+
+  const menu = await Menu.findById(req.params.id);
+  if (!menu) {
+    res.status(400);
+    throw new Error('Menu not Found');
+  }
+
+  const updateMenu = await Menu.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.status(200).json(updateMenu);
 });
 
 module.exports = { creteMenu, getAllMenu, editMenu, getOneMenu };
