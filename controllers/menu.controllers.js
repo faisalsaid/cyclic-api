@@ -6,8 +6,6 @@ const Menu = require('../models/menu.model.js');
 // @route   POST /api/menu
 // @access  Private
 const creteMenu = asyncHandler(async (req, res) => {
-  console.log(req.body);
-
   const { title, description, price, image, category } = req.body;
   if (!title || !description || !price || !image || !category) {
     res.status(400);
@@ -74,4 +72,17 @@ const editMenu = asyncHandler(async (req, res) => {
   res.status(200).json(updateMenu);
 });
 
-module.exports = { creteMenu, getAllMenu, editMenu, getOneMenu };
+// Delete by id
+// @desc    DELTE menu
+// @route   PUT /api/menu/:id
+// @access  Private
+const deleteMenu = asyncHandler(async (req, res) => {
+  const delMenu = await Menu.findByIdAndRemove(req.params.id);
+  if (!delMenu) {
+    res.status(400);
+    throw new Error('Menu not Found');
+  }
+  res.status(200).json(req.params.id);
+});
+
+module.exports = { creteMenu, getAllMenu, editMenu, getOneMenu, deleteMenu };
