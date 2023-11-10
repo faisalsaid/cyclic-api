@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema(
   {
+    refCode: {
+      type: String,
+      require: [true, 'Please add ref code'],
+    },
     customerName: {
       type: String,
       require: [true, 'Please add customer name'],
