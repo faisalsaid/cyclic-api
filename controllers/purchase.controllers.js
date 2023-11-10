@@ -28,7 +28,7 @@ const createPurchase = asyncHandler(async (req, res) => {
 // @route   GET /api/purhcase
 // @access  Private
 const getAllPurchase = asyncHandler(async (req, res) => {
-  const allPurhase = await Purchase.find().populate('listOrder.item');
+  const allPurhase = await Purchase.find().populate('listOrder.item').sort({ _id: -1 });
   if (!allPurhase) {
     res.status(400);
     throw new Error.apply('Cant find any order');
