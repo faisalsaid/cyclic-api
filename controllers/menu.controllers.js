@@ -5,7 +5,7 @@ const Menu = require('../models/menu.model.js');
 // @desc    POST menu
 // @route   POST /api/menu
 // @access  Private
-const creteMenu = asyncHandler(async (req, res) => {
+const createMenu = asyncHandler(async (req, res) => {
   const { title, description, price, image, category } = req.body;
   if (!title || !description || !price || !image || !category) {
     res.status(400);
@@ -25,7 +25,7 @@ const creteMenu = asyncHandler(async (req, res) => {
 });
 
 // Get All menu
-// @desc    POST menu
+// @desc    GET menu
 // @route   GET /api/menu
 // @access  Private
 const getAllMenu = asyncHandler(async (req, res) => {
@@ -85,4 +85,4 @@ const deleteMenu = asyncHandler(async (req, res) => {
   res.status(200).json(req.params.id);
 });
 
-module.exports = { creteMenu, getAllMenu, editMenu, getOneMenu, deleteMenu };
+module.exports = { createMenu, getAllMenu, editMenu, getOneMenu, deleteMenu };

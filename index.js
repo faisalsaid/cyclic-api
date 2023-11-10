@@ -26,6 +26,7 @@ app.all('/api', (req, res) => {
 app.use('/api/user', require('./routes/user.route.js'));
 app.use('/api/auth', require('./routes/auth.route.js'));
 app.use('/api/menu', require('./routes/menu.route.js'));
+app.use('/api/order', require('./routes/order.route.js'));
 
 app.use(errorHandler);
 

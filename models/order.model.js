@@ -4,54 +4,53 @@ const orderSchema = mongoose.Schema(
   {
     refCode: {
       type: String,
-      require: [true, 'Please add ref code'],
+      required: [true, 'Please add ref code'],
     },
     customerName: {
       type: String,
-      require: [true, 'Please add customer name'],
+      required: [true, 'Please add customer name'],
     },
     table: {
       type: String,
-      require: [true, 'Please choose table'],
+      required: [true, 'Please choose table'],
     },
     paymentMethod: {
       type: String,
-      require: [true, 'Please choose payment method'],
+      required: [true, 'Please choose payment method'],
     },
     amount: {
       type: Number,
-      require: [true, 'Please add a amount'],
-      min: [0.09, 'Minimum amount is $0.1'],
+      required: [true, 'Please add a amount'],
+      min: [0.009, 'Minimum amount is $0.01'],
     },
     change: {
       type: Number,
-      require: [true, 'Please add a change'],
-      min: [0.09, 'Minimum change is $0.1'],
+      required: [true, 'Please add a change'],
+      min: [0.009, 'Minimum change is $0.01'],
     },
     discountSales: {
       type: Number,
-      require: [true, 'Please add a discount'],
-      min: [0.09, 'Minimum discount is $0.1'],
+      required: [true, 'Please add a discount'],
     },
     finalPrice: {
       type: Number,
-      require: [true, 'Please add a final price'],
-      min: [0.09, 'Minimum final price is $0.1'],
+      required: [true, 'Please add a final price'],
+      min: [0.009, 'Minimum final price is $0.01'],
     },
     saleTax: {
       type: Number,
-      require: [true, 'Please add a sale tax'],
-      min: [0.09, 'Minimum sale tax is $0.1'],
+      required: [true, 'Please add a sale tax'],
+      min: [0.009, 'Minimum sale tax is $0.01'],
     },
     subtotal: {
       type: Number,
-      require: [true, 'Please add a subtotal'],
-      min: [0.09, 'Minimum subtotal is $0.1'],
+      required: [true, 'Please add a subtotal'],
+      min: [0.009, 'Minimum subtotal is $0.01'],
     },
     listOrder: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        require: true,
+        required: true,
         ref: 'Menu',
       },
     ],
