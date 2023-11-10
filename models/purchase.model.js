@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const orderSchema = mongoose.Schema(
+const purchaseSchema = mongoose.Schema(
   {
     orderRef: {
       type: String,
@@ -59,4 +59,4 @@ const orderSchema = mongoose.Schema(
   },
 );
 
-module.exports = mongoose.model('Order', orderSchema);
+module.exports = mongoose.model('Purchase', purchaseSchema);

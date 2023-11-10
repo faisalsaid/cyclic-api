@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler');
-const Order = require('../models/order.model.js');
+const Purchase = require('../models/purchase.model.js');
 const Menu = require('../models/menu.model.js');
 
 const testingOrder = (req, res) => {
@@ -12,7 +12,7 @@ const testingOrder = (req, res) => {
 // @access  Private
 // 654a37d420e2c54539133609
 // 654af06a7d2381d667af3891
-const createOrder = asyncHandler(async (req, res) => {
+const createPurchase = asyncHandler(async (req, res) => {
   const { listOrder, ...payload } = req.body;
   const listId = listOrder.map((list) => list.item._id);
 
@@ -23,30 +23,30 @@ const createOrder = asyncHandler(async (req, res) => {
   }
 
   const listMenuIds = menu.map((menu) => menu._id);
-  const order = await Order.create({
+  const pruchase = await Purchase.create({
     ...payload,
     listOrder: listMenuIds,
   });
 
-  if (!order) {
+  if (!pruchase) {
     res.status(400);
     throw new Error.apply('Cant create order');
   }
-  res.status(200).json(order);
+  res.status(200).json(pruchase);
 });
 
-// get Order
-// @desc    GET order
-// @route   GET /api/order
+// get Purchase
+// @desc    GET purhcase
+// @route   GET /api/purhcase
 // @access  Private
-const getAllOrder = asyncHandler(async (req, res) => {
-  const allOrder = await Order.find().populate('listOrder');
-  if (!allOrder) {
+const getAllPurchase = asyncHandler(async (req, res) => {
+  const allPurhase = await Purchase.find().populate('listOrder');
+  if (!allPurhase) {
     res.status(400);
     throw new Error.apply('Cant find any order');
   }
 
-  res.status(200).json(allOrder);
+  res.status(200).json(allPurhase);
 });
 
-module.exports = { testingOrder, createOrder, getAllOrder };
+module.exports = { testingOrder, createPurchase, getAllPurchase };
