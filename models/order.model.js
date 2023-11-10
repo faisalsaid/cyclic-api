@@ -5,6 +5,7 @@ const orderSchema = mongoose.Schema(
     refCode: {
       type: String,
       required: [true, 'Please add ref code'],
+      unique: [true, 'Ref Code is alreadt exist'],
     },
     customerName: {
       type: String,
