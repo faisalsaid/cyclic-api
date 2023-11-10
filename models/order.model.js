@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema(
   {
-    refCode: {
+    orderRef: {
       type: String,
       required: [true, 'Please add ref code'],
       unique: [true, 'Ref Code is alreadt exist'],
@@ -26,8 +26,6 @@ const orderSchema = mongoose.Schema(
     },
     change: {
       type: Number,
-      required: [true, 'Please add a change'],
-      min: [0.009, 'Minimum change is $0.01'],
     },
     discountSales: {
       type: Number,
