@@ -41,11 +41,6 @@ const createOrder = asyncHandler(async (req, res) => {
 // @access  Private
 const getAllOrder = asyncHandler(async (req, res) => {
   const allOrder = await Order.find().populate('listOrder');
-  // const allOrder = await Order.find().populate({
-  //   path: 'listOrder',
-  //   select: '-customerName', // Exclude specific properties
-  // });
-
   if (!allOrder) {
     res.status(400);
     throw new Error.apply('Cant find any order');

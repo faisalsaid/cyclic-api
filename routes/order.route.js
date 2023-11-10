@@ -4,7 +4,7 @@ const { testingOrder, createOrder, getAllOrder } = require('../controllers/order
 
 const router = express.Router();
 
-router.route('/').post(createOrder).get(getAllOrder);
+router.route('/').post(protected, createOrder).get(protected, getAllOrder);
 // router.route('/').post(protected, creteMenu).get(protected, getAllMenu);
 // router.route('/:id').put(protected, editMenu).get(protected, getOneMenu).delete(protected, deleteMenu);
 
