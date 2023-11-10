@@ -48,9 +48,21 @@ const purchaseSchema = mongoose.Schema(
     },
     listOrder: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Menu',
+        item: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'Menu',
+        },
+        quantity: {
+          type: Number,
+          required: [true, 'Please add a final price'],
+          min: [0, 'Minimum quantity 1'],
+        },
+        orderPrice: {
+          type: Number,
+          required: [true, 'Please add a price'],
+          min: [0.009, 'Minimum price is $0.01'],
+        },
       },
     ],
   },

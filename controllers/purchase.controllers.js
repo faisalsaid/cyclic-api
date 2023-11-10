@@ -13,20 +13,8 @@ const testingOrder = (req, res) => {
 // 654a37d420e2c54539133609
 // 654af06a7d2381d667af3891
 const createPurchase = asyncHandler(async (req, res) => {
-  const { listOrder, ...payload } = req.body;
-  const listId = listOrder.map((list) => list.item._id);
-
-  const menu = await Menu.find({ _id: { $in: listId } });
-  if (!menu) {
-    res.status(400);
-    throw new Error.apply('Menu not exist');
-  }
-
-  const listMenuIds = menu.map((menu) => menu._id);
-  const pruchase = await Purchase.create({
-    ...payload,
-    listOrder: listMenuIds,
-  });
+  const payload = req.body;
+  const pruchase = await Purchase.create(payload);
 
   if (!pruchase) {
     res.status(400);
@@ -40,7 +28,7 @@ const createPurchase = asyncHandler(async (req, res) => {
 // @route   GET /api/purhcase
 // @access  Private
 const getAllPurchase = asyncHandler(async (req, res) => {
-  const allPurhase = await Purchase.find().populate('listOrder');
+  const allPurhase = await Purchase.find().populate('listOrder.item');
   if (!allPurhase) {
     res.status(400);
     throw new Error.apply('Cant find any order');
