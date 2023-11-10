@@ -44,6 +44,13 @@ const orderSchema = mongoose.Schema(
       require: [true, 'Please add a subtotal'],
       min: [0.09, 'Minimum subtotal is $0.1'],
     },
+    listOrder: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        require: true,
+        ref: 'Menu',
+      },
+    ],
   },
   {
     timestamps: true,
