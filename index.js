@@ -27,6 +27,7 @@ app.use('/api/user', require('./routes/user.route.js'));
 app.use('/api/auth', require('./routes/auth.route.js'));
 app.use('/api/menu', require('./routes/menu.route.js'));
 app.use('/api/purchase', require('./routes/purchase.route.js'));
+app.use('/api/dashboard', require('./routes/dashboard.route.js'));
 
 app.use(errorHandler);
 
