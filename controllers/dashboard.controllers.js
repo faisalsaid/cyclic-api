@@ -15,19 +15,19 @@ const getAllPurchase = asyncHandler(async (req, res) => {
   //   Handle meal time
   const breackfast = allPurchase.filter((order) => {
     const orderTime = new Date(order.createdAt).getHours();
-    return orderTime >= 7 && orderTime < 11;
+    return orderTime >= 5 && orderTime < 11;
   });
   const lunch = allPurchase.filter((order) => {
     const orderTime = new Date(order.createdAt).getHours();
-    return orderTime >= 11 && orderTime < 18;
+    return orderTime >= 11 && orderTime < 17;
   });
   const dinner = allPurchase.filter((order) => {
     const orderTime = new Date(order.createdAt).getHours();
-    return orderTime >= 18 && orderTime < 22;
+    return orderTime >= 17 && orderTime < 23;
   });
   const overTime = allPurchase.filter((order) => {
     const orderTime = new Date(order.createdAt).getHours();
-    return orderTime >= 22 && orderTime < 7;
+    return orderTime >= 23 && orderTime < 5;
   });
 
   //   handle total transaction by day month year
@@ -46,12 +46,15 @@ const getAllPurchase = asyncHandler(async (req, res) => {
   };
 
   const calculateIncome = (list) => {
-    return list.length > 0 ? list.map((order) => order.listOrder.map((list) => list.orderPrice).reduce((total, item) => total + item)).reduce((total, item) => total + item) : null;
+    return list.length > 0 ? calculateTotal(list, 'orderPrice') : null;
+    // return list.length > 0 ? list.map((order) => order.listOrder.map((list) => list.orderPrice).reduce((total, item) => total + item)).reduce((total, item) => total + item) : null;
   };
 
   const calculateItem = (list) => {
-    return list.length > 0 ? list.map((order) => order.listOrder.map((list) => list.quantity).reduce((total, item) => total + item)).reduce((total, item) => total + item) : null;
+    return list.length > 0 ? calculateTotal(list, 'quantity') : null;
+    // return list.length > 0 ? list.map((order) => order.listOrder.map((list) => list.quantity).reduce((total, item) => total + item)).reduce((total, item) => total + item) : null;
   };
+
   const calculateMealTime = (orders, label) => {
     const totalOrders = orders.length;
     const income = calculateIncome(orders);
