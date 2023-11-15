@@ -45,22 +45,20 @@ const getAllPurchase = asyncHandler(async (req, res) => {
     return orders.map((order) => order.listOrder.map((list) => list[property]).reduce((total, item) => total + item)).reduce((total, item) => total + item);
   };
 
+  //   my refactor calculate income
   const calculateIncome = (list) => {
     return list.length > 0 ? calculateTotal(list, 'orderPrice') : null;
-    // return list.length > 0 ? list.map((order) => order.listOrder.map((list) => list.orderPrice).reduce((total, item) => total + item)).reduce((total, item) => total + item) : null;
   };
 
+  //   my refactor calculate item
   const calculateItem = (list) => {
     return list.length > 0 ? calculateTotal(list, 'quantity') : null;
-    // return list.length > 0 ? list.map((order) => order.listOrder.map((list) => list.quantity).reduce((total, item) => total + item)).reduce((total, item) => total + item) : null;
   };
 
   const calculateMealTime = (orders, label) => {
     const totalOrders = orders.length;
     const income = calculateIncome(orders);
-    //   totalOrders > 0 ? orders.map((order) => order.listOrder.map((list) => list.orderPrice).reduce((total, item) => total + item)).reduce((total, item) => total + item) : null;
     const totalItems = calculateItem(orders);
-    //   totalOrders > 0 ? orders.map((order) => order.listOrder.map((list) => list.quantity).reduce((total, item) => total + item)).reduce((total, item) => total + item) : null;
 
     return {
       label,
@@ -73,9 +71,7 @@ const getAllPurchase = asyncHandler(async (req, res) => {
   const calculateTotalTransaction = (orders, timeLabel) => {
     const totalOrders = orders.length;
     const income = calculateIncome(orders);
-    //   totalOrders > 0 ? orders.map((order) => order.listOrder.map((list) => list.orderPrice).reduce((total, item) => total + item)).reduce((total, item) => total + item) : null;
     const totalItems = calculateItem(orders);
-    //   totalOrders > 0 ? orders.map((order) => order.listOrder.map((list) => list.quantity).reduce((total, item) => total + item)).reduce((total, item) => total + item) : null;
 
     return {
       label: timeLabel,
@@ -85,6 +81,37 @@ const getAllPurchase = asyncHandler(async (req, res) => {
     };
   };
 
+  // Handle popular menu
+  const menuQantity = allPurchase.map((order) => order.listOrder.map((list) => ({ menu_id: list.item._id, menuTitle: list.item.title, quantity: list.quantity })));
+
+  // get list uniq menu id
+  const flatArray = menuQantity.flat();
+  const uniqueMenuIds = [...new Set(flatArray.map((item) => item.menu_id))];
+
+  // Create a dictionary to store the total quantity for each menu_id
+  const menuQuantities = {};
+
+  flatArray.forEach((item) => {
+    const { menu_id, menuTitle, quantity } = item;
+
+    if (menuQuantities[menu_id]) {
+      menuQuantities[menu_id].totalQuantity += quantity;
+    } else {
+      menuQuantities[menu_id] = {
+        menuTitle,
+        totalQuantity: quantity,
+      };
+    }
+  });
+
+  // Create a new array with the aggregated results
+  const aggregatedMenuItems = Object.keys(menuQuantities).map((menu_id) => ({
+    menu_id,
+    menuTitle: menuQuantities[menu_id].menuTitle,
+    totalQuantity: menuQuantities[menu_id].totalQuantity,
+  }));
+
+  // Create dashboard data
   const dashboard = {
     totalIncome: calculateTotal(allPurchase, 'orderPrice'),
     totalItems: calculateTotal(allPurchase, 'quantity'),
@@ -101,8 +128,9 @@ const getAllPurchase = asyncHandler(async (req, res) => {
       ordersThisMonth: calculateTotalTransaction(ordersThisMonth, today.getMonth() + 1),
       ordersThisYear: calculateTotalTransaction(ordersThisYear, today.getFullYear()),
     },
-  };
 
+    popularMenu: aggregatedMenuItems,
+  };
   res.status(200).json(dashboard);
 });
 
