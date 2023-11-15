@@ -116,14 +116,25 @@ const getAllPurchase = asyncHandler(async (req, res) => {
   const lunchData = calculateMealTime(breackfast, 'Breakfast');
   // Create dashboard data
   const dashboard = {
-    totalIncome: {
-      title: 'Total Income',
-      value: calculateTotal(allPurchase, 'orderPrice'),
-    },
-    totalItems: {
-      titel: 'Total Items',
-      value: calculateTotal(allPurchase, 'quantity'),
-    },
+    // totalIncome: {
+    //   title: 'Total Income',
+    //   value: calculateTotal(allPurchase, 'orderPrice'),
+    // },
+    // totalItems: {
+    //   titel: 'Total Items',
+    //   value: calculateTotal(allPurchase, 'quantity'),
+    // },
+
+    dataTotal: [
+      {
+        title: 'Total Income',
+        value: calculateTotal(allPurchase, 'orderPrice'),
+      },
+      {
+        title: 'Total Items',
+        value: calculateTotal(allPurchase, 'quantity'),
+      },
+    ],
 
     mealTime: [
       { ...calculateMealTime(breackfast, 'Breakfast') },
