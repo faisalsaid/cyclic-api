@@ -47,12 +47,12 @@ const getAllPurchase = asyncHandler(async (req, res) => {
 
   //   my refactor calculate income
   const calculateIncome = (list) => {
-    return list.length > 0 ? calculateTotal(list, 'orderPrice') : null;
+    return list.length > 0 ? calculateTotal(list, 'orderPrice') : 0;
   };
 
   //   my refactor calculate item
   const calculateItem = (list) => {
-    return list.length > 0 ? calculateTotal(list, 'quantity') : null;
+    return list.length > 0 ? calculateTotal(list, 'quantity') : 0;
   };
 
   const calculateMealTime = (orders, label) => {
