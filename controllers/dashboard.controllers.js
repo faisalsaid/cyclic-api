@@ -23,11 +23,11 @@ const getAllPurchase = asyncHandler(async (req, res) => {
   });
   const dinner = allPurchase.filter((order) => {
     const orderTime = new Date(order.createdAt).getHours();
-    return orderTime >= 17 && orderTime < 23;
+    return orderTime >= 17 && orderTime < 24;
   });
   const overTime = allPurchase.filter((order) => {
     const orderTime = new Date(order.createdAt).getHours();
-    return orderTime >= 23 && orderTime < 5;
+    return orderTime >= 0 && orderTime < 5;
   });
 
   //   handle total transaction by day month year
@@ -146,7 +146,7 @@ const getAllPurchase = asyncHandler(async (req, res) => {
 
     popularMenu: aggregatedMenuItems.sort((a, b) => b.totalQuantity - a.totalQuantity).slice(0, 5),
   };
-  res.status(200).json(dashboard);
+  res.status(200).json({ breackfast, dinner, lunch, overTime });
 });
 
 module.exports = { getAllPurchase };
