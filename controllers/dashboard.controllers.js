@@ -146,7 +146,7 @@ const getAllPurchase = asyncHandler(async (req, res) => {
 
     popularMenu: aggregatedMenuItems.sort((a, b) => b.totalQuantity - a.totalQuantity).slice(0, 5),
   };
-  res.status(200).json({ breackfast, dinner, lunch, overTime });
+  res.status(200).json({ dashboard });
 });
 
 module.exports = { getAllPurchase };
