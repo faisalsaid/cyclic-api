@@ -42,12 +42,18 @@ const getAllPurchase = asyncHandler(async (req, res) => {
 
   //   refactor my code by chatGPT and me
   const calculateTotal = (orders, property) => {
-    return orders.map((order) => order.listOrder.map((list) => list[property]).reduce((total, item) => total + item)).reduce((total, item) => total + item);
+    if (property === 'quantity') {
+      return orders.map((order) => order.listOrder.map((list) => list.quantity).reduce((total, item) => total + item, 0)).reduce((total, item) => total + item, 0);
+    }
+    if (property === 'finalPrice') {
+      return orders.map((order) => order.finalPrice).reduce((total, item) => total + item, 0);
+    }
+    return { message: 'not Match' };
   };
 
   //   my refactor calculate income
   const calculateIncome = (list) => {
-    return list.length > 0 ? calculateTotal(list, 'orderPrice') : 0;
+    return list.length > 0 ? calculateTotal(list, 'finalPrice') : 0;
   };
 
   //   my refactor calculate item
@@ -117,7 +123,7 @@ const getAllPurchase = asyncHandler(async (req, res) => {
     dataTotal: [
       {
         title: 'Total Income',
-        value: calculateTotal(allPurchase, 'orderPrice'),
+        value: calculateTotal(allPurchase, 'finalPrice'),
       },
       {
         title: 'Total Items',
