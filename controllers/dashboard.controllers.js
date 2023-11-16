@@ -23,11 +23,11 @@ const getAllPurchase = asyncHandler(async (req, res) => {
   });
   const dinner = allPurchase.filter((order) => {
     const orderTime = new Date(order.createdAt).getHours();
-    return orderTime >= 17 && orderTime < 24;
+    return orderTime >= 17 && orderTime < 23;
   });
   const overTime = allPurchase.filter((order) => {
     const orderTime = new Date(order.createdAt).getHours();
-    return orderTime >= 0 && orderTime < 5;
+    return (orderTime >= 23 && orderTime < 0) || (orderTime >= 0 && orderTime < 5);
   });
 
   //   handle total transaction by day month year
