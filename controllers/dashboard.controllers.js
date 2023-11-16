@@ -112,19 +112,8 @@ const getAllPurchase = asyncHandler(async (req, res) => {
     totalQuantity: menuQuantities[menu_id].totalQuantity,
   }));
 
-  const breackfastData = calculateMealTime(breackfast, 'Breakfast');
-  const lunchData = calculateMealTime(breackfast, 'Breakfast');
   // Create dashboard data
   const dashboard = {
-    // totalIncome: {
-    //   title: 'Total Income',
-    //   value: calculateTotal(allPurchase, 'orderPrice'),
-    // },
-    // totalItems: {
-    //   titel: 'Total Items',
-    //   value: calculateTotal(allPurchase, 'quantity'),
-    // },
-
     dataTotal: [
       {
         title: 'Total Income',
@@ -148,12 +137,6 @@ const getAllPurchase = asyncHandler(async (req, res) => {
       { ...calculateTotalTransaction(ordersThisMonth, today.getMonth() + 1, 'This Month') },
       { ...calculateTotalTransaction(ordersThisYear, today.getFullYear(), 'This Year') },
     ],
-
-    // totalTransaction: {
-    //   ordersToday: calculateTotalTransaction(ordersToday, today.getDate()),
-    //   ordersThisMonth: calculateTotalTransaction(ordersThisMonth, today.getMonth() + 1),
-    //   ordersThisYear: calculateTotalTransaction(ordersThisYear, today.getFullYear()),
-    // },
 
     popularMenu: aggregatedMenuItems.sort((a, b) => b.totalQuantity - a.totalQuantity).slice(0, 5),
   };
