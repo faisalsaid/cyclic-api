@@ -1,6 +1,6 @@
 const express = require('express');
 const { protected } = require('../middelware/auth.middlware.js');
-const { createMenu, getAllMenu, editMenu, getOneMenu, deleteMenu } = require('../controllers/menu.controllers.js');
+const { createMenu, getAllMenu, editMenu, getOneMenu, deleteMenu, findByMenu } = require('../controllers/menu.controllers.js');
 
 const router = express.Router();
 

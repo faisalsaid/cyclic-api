@@ -29,12 +29,24 @@ const createMenu = asyncHandler(async (req, res) => {
 // @route   GET /api/menu
 // @access  Private
 const getAllMenu = asyncHandler(async (req, res) => {
+  const { title } = req.query;
+
+  if (title) {
+    console.log(title);
+    const allMenu = await Menu.find({ title: { $regex: new RegExp(title, 'i') } });
+    if (!allMenu) {
+      res.status(400);
+      throw new Error('Menu not Found');
+    }
+    return res.status(200).json(allMenu);
+  }
+
   const allMenu = await Menu.find();
   if (!allMenu) {
     res.status(400);
     throw new Error('Menu not Found');
   }
-  res.status(200).json(allMenu);
+  return res.status(200).json(allMenu);
 });
 
 // Get one menu by id
@@ -45,7 +57,7 @@ const getOneMenu = asyncHandler(async (req, res) => {
   const menu = await Menu.findById(req.params.id);
   if (!menu) {
     res.status(400);
-    throw new Error('Goal not Found');
+    throw new Error('Menu not Found');
   }
   res.status(200);
   res.json(menu);
@@ -85,4 +97,13 @@ const deleteMenu = asyncHandler(async (req, res) => {
   res.status(200).json(req.params.id);
 });
 
-module.exports = { createMenu, getAllMenu, editMenu, getOneMenu, deleteMenu };
+// Find by title
+// @desc    GET menu
+// @route   GET /api/menu/:title
+// @access  Private
+const findByMenu = asyncHandler(async (req, res) => {
+  console.log(req.params);
+  res.json(req.params);
+});
+
+module.exports = { createMenu, getAllMenu, editMenu, getOneMenu, deleteMenu, findByMenu };
