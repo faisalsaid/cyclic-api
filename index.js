@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 // testing api conection
 app.all('/api', (req, res) => {
   console.log('Just got a request!');
-  res.send('api is live');
+  res.send('api is live update');
 });
 
 app.use('/api/user', require('./routes/user.route.js'));
