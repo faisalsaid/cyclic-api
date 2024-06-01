@@ -23,6 +23,11 @@ app.all('/api', (req, res) => {
   res.send('api is live update');
 });
 
+app.all('/api/new', (req, res) => {
+  console.log('Just got a request!');
+  res.send('api new');
+});
+
 app.use('/api/user', require('./routes/user.route.js'));
 app.use('/api/auth', require('./routes/auth.route.js'));
 app.use('/api/menu', require('./routes/menu.route.js'));
