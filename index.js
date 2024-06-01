@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const colors = require('colors');
 const cors = require('cors');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const connectDB = require('./config/db.js');
 const { errorHandler } = require('./middelware/error.middleware.js');
 const cookieParser = require('cookie-parser');
